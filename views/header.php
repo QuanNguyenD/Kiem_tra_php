@@ -12,7 +12,7 @@
             <ul>
                 <li><a href="../students/list.php">Sinh Viên</a></li>
                 <li><a href="../courses/list.php">Học Phần</a></li>
-                <li><a href="../courses/register.php">Đăng Ký</a></li>
+                <li><a href="../auth/registered_courses.php">Đăng Ký</a></li>
                 <li><a href="../auth/login.php">Đăng Nhập</a></li>
             </ul>
         </nav>

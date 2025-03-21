@@ -1,6 +1,6 @@
 <?php
 require_once '../../config/database.php';
-include '../../views/header.php'; // Thêm header
+include '../../views/header.php';
 session_start();
 
 if (!isset($_SESSION['maSV'])) {
@@ -10,22 +10,20 @@ if (!isset($_SESSION['maSV'])) {
 
 $maSV = $_SESSION['maSV'];
 
-// Kết nối DB
-
-
-
+// Truy vấn danh sách môn học sinh viên đã đăng ký
 $sql = "
     SELECT hp.MaHP, hp.TenHP, hp.SoTinChi 
     FROM ChiTietDangKy ctdk
     JOIN HocPhan hp ON ctdk.MaHP = hp.MaHP
     JOIN DangKy dk ON ctdk.MaDK = dk.MaDK
-    WHERE dk.MaSV = :MaSV
+    WHERE dk.MaSV = :maSV
+    
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':MaSV', $MaSV, PDO::PARAM_STR);
+$stmt->bindParam(':maSV', $maSV, PDO::PARAM_STR);
 $stmt->execute();
-$courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$registered_courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -41,24 +39,22 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h2>Đăng Ký Học Phần</h2>
     <table border="1">
         <tr>
-            <th>MaHP</th>
+            <th>Mã Học Phần</th>
             <th>Tên Học Phần</th>
             <th>Số Tín Chỉ</th>
             <th>Hành động</th>
         </tr>
         <?php 
-        $registered_courses = [];
         $total_credits = 0;
-        $total_courses = 0;
+        $total_courses = count($registered_courses);
         foreach ($registered_courses as $course): 
-            $total_courses++;
             $total_credits += $course['SoTinChi'];
         ?>
         <tr>
-            <td><?= htmlspecialchars($course['MaNganh']) ?></td>
+            <td><?= htmlspecialchars($course['MaHP']) ?></td>
             <td><?= htmlspecialchars($course['TenHP']) ?></td>
             <td><?= htmlspecialchars($course['SoTinChi']) ?></td>
-            <td><a href="unregister.php?MaNganh=<?= $course['MaNganh'] ?>">Xóa</a></td>
+            <td><a href="unregister_course.php?MaHP=<?= $course['MaHP'] ?>">Xóa</a></td>
         </tr>
         <?php endforeach; ?>
     </table>

@@ -29,8 +29,7 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($course['TenHP']) ?></td>
                     <td><?= htmlspecialchars($course['SoTinChi']) ?></td>
                     <td>
-                        <button class="btn btn-success">Đăng Kí</button>
-                    </td>
+                        <a href="../auth/register_course.php?MaHP=<?php echo urlencode($course['MaHP']); ?>" class="btn btn-success">Đăng ký</a>
                 </tr>
             <?php endforeach; ?>
         </tbody>

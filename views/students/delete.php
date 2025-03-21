@@ -1,6 +1,6 @@
 <?php
 require_once '../../config/database.php';
-
+    
 
 if (isset($_GET['MaSV'])) {
     $MaSV = $_GET['MaSV'];
